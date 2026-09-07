@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fourline Travels | Invoice processor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <main class="shell">
+      <div class="brand"><span class="brand-mark">F</span> Fourline Travels</div>
+      <section class="panel">
+        <p class="eyebrow">Invoice workspace</p>
+        <h1>Turn trip data into invoices.</h1>
+        <p class="intro">Upload a spreadsheet, choose the matching program, and we will calculate the travel costs for you.</p>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="flash" role="alert">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        <form class="upload-form" action="{{ url_for('process') }}" method="post" enctype="multipart/form-data">
+          <label class="field">
+            Spreadsheet file
+            <input type="file" name="datafile" accept=".csv,.xlsx,.xls" required>
+          </label>
+          <label class="field">
+            Billing program
+            <select name="processor">
+              <option value="jewishhome">Jewish Home</option>
+              <option value="njveterans">NJ Veterans</option>
+              <option value="uhc">UHC</option>
+            </select>
+          </label>
+          <button type="submit">Process invoice <span aria-hidden="true">&rarr;</span></button>
+        </form>
+        <p class="hint">Accepted formats: CSV, XLS, or XLSX. Sample files are available in the Data folder.</p>
+      </section>
+    </main>
+  </body>
+</html>

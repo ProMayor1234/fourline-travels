@@ -1,0 +1,6 @@
+patient_name,invoice_number,dob,member_id,service_type,date_of_service,facility_name,miles
+John Doe,INV001,01/15/1950,MEM123,Transport,01/10/2024,New Vista Nursing,15
+Jane Smith,INV002,03/22/1945,MEM456,Transport,01/11/2024,New Vista Nursing,20
+Jacob Jingle,INV003,05/29/1940,MEM789,Transport,01/12/2024,New Vista Nursing,25
+Jill Foster,INV004,08/05/1950,MEM012,Transport,01/13/2024,New Vista Nursing,30
+Jack White,INV005,10/12/1955,MEM345,Transport,01/14/2024,New Vista Nursing,35

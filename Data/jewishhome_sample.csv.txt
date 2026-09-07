@@ -1,0 +1,5 @@
+item,date_of_service,confirmation_no,patient_name,from_address,to_address,miles
+1,01/10/2024,CONF001,Alice Brown,100 Pine St,200 Elm St,10
+2,01/11/2024,CONF002,Bob Davis,150 Maple Ave,250 Oak Blvd,12
+3,01/17/2024,CONF003,Janice Brown,1 Apple Grove,2 Washington Av,50
+4,01/15/2024,CONF004,June Powers,30 Main St,40 Town Bvl,40

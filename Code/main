@@ -1,0 +1,109 @@
+import pandas as pd
+from uhc_processor import calculate_uhc_cost
+from njveterans_processor import calculate_njveterans_cost
+from jewishhome_processor import calculate_jewishhome_cost
+
+# Four-Line Travels invoice generator script.
+# Prompts the user to select a billing mode, loads the appropriate sample CSV,
+# calculates each line item using the selected rate function, and writes a
+# simple invoice text file to the Output folder.
+print("Four-Line Travels Invoice Generator")
+print("===================================")
+print("\nWhich billing mode?")
+print("1. UHC (Distance-Based)")
+print("2. N2J Veterans (Hourly)")
+print("3. Jewish Home (Distance-Based)")
+
+choice = input("Enter 1, 2, or 3: ")
+
+if choice == "1":
+    # UHC distance-based billing path
+    # Read sample UHC data from the Data folder
+    data = pd.read_csv(r"C:\Users\noels\Documents\Fourline-Travels\Data\uhc_sample.csv.txt")
+    if data.empty:
+        print("Error: CSV file is empty")
+    else:
+        # Open the invoice output file for writing
+        output = open(r"C:\Users\noels\Documents\Fourline-Travels\Output\invoice.txt", "w")
+        output.write(f"Fourline Travels LLC\n")
+        output.write(f"645 Stelton St, Teaneck, NJ 07666\n")
+        output.write(f"Phone: 551-313-8500\n")
+        output.write(f"Email:info@fourlinetravels.com\n")
+        output.write("UHC BILLING INVOICE\n")
+        output.write("=" * 40 + "\n")
+
+        total_amount = 0
+        # Process each patient row and calculate the cost from the UHC rate function
+        for index, row in data.iterrows():
+            miles = row['miles']
+            cost = calculate_uhc_cost(miles)
+            total_amount += cost
+            output.write(f"Patient: {row['patient_name']}\n")
+            output.write(f"Miles: {miles}\n")
+            output.write(f"Cost: ${cost:.2f}\n")
+            output.write("-" * 40 + "\n")
+
+        output.write(f"\nTOTAL: ${total_amount}\n")
+        output.close()
+        print("Invoice saved to C:/Users/noels/Documents/Fourline-Travels/Output/invoice.txt")
+elif choice == "2":
+    # NJ Veterans hourly billing path
+    # Read sample NJ Veterans data from the Data folder
+    data = pd.read_csv(r"C:\Users\noels\Documents\Fourline-Travels\Data\njveterans_sample.csv.txt")
+    if data.empty:
+        print("Error: CSV file is empty")
+    else:
+        output = open(r"C:\Users\noels\Documents\Fourline-Travels\Output\invoice.txt", "w")
+        output.write(f"Fourline Travels LLC\n")
+        output.write(f"645 Stelton St, Teaneck, NJ 07666\n")
+        output.write(f"Phone: 551-313-8500\n")
+        output.write(f"Email:info@fourlinetravels.com\n")
+        output.write("NJ VETERANS BILLING INVOICE\n")
+        output.write("=" * 40 + "\n")
+
+        total_amount = 0
+        # Process each patient row and apply the hourly capping logic
+        for index, row in data.iterrows():
+            hours = row['hours']
+            cost = calculate_njveterans_cost(hours)
+            total_amount += cost
+            output.write(f"Patient: {row['patient_name']}\n")
+            output.write(f"Hours: {hours}\n")
+            output.write(f"Cost: ${cost:.2f}\n")
+            output.write("-" * 40 + "\n")
+
+        output.write(f"\nTOTAL: ${total_amount}\n")
+        output.close()
+        print("Invoice saved to C:/Users/noels/Documents/Fourline-Travels/Output/invoice.txt")
+elif choice == "3":
+    # Jewish Home distance-based billing path
+    # Read sample Jewish Home data from the Data folder
+    data = pd.read_csv(r"C:\Users\noels\Documents\Fourline-Travels\Data\jewishhome_sample.csv.txt")
+    if data.empty:
+        print("Error: CSV file is empty")
+    else:
+        output = open(r"C:\Users\noels\Documents\Fourline-Travels\Output\invoice.txt", "w")
+        output.write(f"Fourline Travels LLC\n")
+        output.write(f"645 Stelton St, Teaneck, NJ 07666\n")
+        output.write(f"Phone: 551-313-8500\n")
+        output.write(f"Email:info@fourlinetravels.com\n")
+        output.write("JEWISH HOME BILLING INVOICE\n")
+        output.write("=" * 40 + "\n")
+
+        total_amount = 0
+        # Process each patient row and calculate the round-trip mileage cost
+        for index, row in data.iterrows():
+            miles = row['miles']
+            cost = calculate_jewishhome_cost(miles)
+            total_amount += cost
+            output.write(f"Patient: {row['patient_name']}\n")
+            output.write(f"Miles: {miles}\n")
+            output.write(f"Cost: ${cost:.2f}\n")
+            output.write("-" * 40 + "\n")
+
+        output.write(f"\nTOTAL: ${total_amount}\n")
+        output.close()
+        print("Invoice saved to C:/Users/noels/Documents/Fourline-Travels/Output/invoice.txt")
+else:
+    # Handle invalid user input
+    print("Invalid choice")
